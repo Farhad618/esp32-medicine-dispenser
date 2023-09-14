@@ -21,10 +21,10 @@ int alarmOffButtonState = 1;
 char timeHMForAlarmOff[6];
 
 const int LED_BUILTIN = 2;
-const int LED_1 = 16;
-const int LED_2 = 17;
-const int LED_3 = 18;
-const int LED_4 = 19;
+const int LED_4 = 16;
+const int LED_3 = 17;
+const int LED_2 = 18;
+const int LED_1 = 19;
 const int buzzerPin = 23;
 const int PULLUP_BUTTON_STOP_ALARM = 22;
 
@@ -98,8 +98,8 @@ void setup() {
 
 
 
+  // http.begin("https://getfromapiv2.abu-taha-md-far.repl.co/api/checkForAlarm");
   http.begin("http://192.168.43.223:3000/api/checkForAlarm");
-
   /*if (http.GET() == 200) {
     data = http.getString();
     } else {
@@ -115,7 +115,13 @@ void setup() {
 
   http.end();*/
 }
-
+void ledLow(){
+  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(LED_1, LOW);
+  digitalWrite(LED_2, LOW);
+  digitalWrite(LED_3, LOW);
+  digitalWrite(LED_4, LOW);
+}
 void loop() {
   Serial.println(++loopCounter);
 
@@ -166,14 +172,42 @@ void loop() {
         i++;
       }
       digitalWrite(LED_BUILTIN, HIGH);
+
+      alarmOffButtonState = digitalRead(PULLUP_BUTTON_STOP_ALARM);
+      if(alarmOffButtonState == 0){
+        ledLow();
+        break;
+        printf("break");
+      }
+
       beep(NOTE_A4, 500);
+       alarmOffButtonState = digitalRead(PULLUP_BUTTON_STOP_ALARM);
+      if(alarmOffButtonState == 0){
+        ledLow();
+        break;
+        printf("break");
+      }
       delay(500);
-      digitalWrite(LED_BUILTIN, LOW);
-      digitalWrite(LED_1, LOW);
-      digitalWrite(LED_2, LOW);
-      digitalWrite(LED_3, LOW);
-      digitalWrite(LED_4, LOW);
+       alarmOffButtonState = digitalRead(PULLUP_BUTTON_STOP_ALARM);
+      if(alarmOffButtonState == 0){
+        ledLow();
+        break;
+        printf("break");
+      }
+      ledLow();
+       alarmOffButtonState = digitalRead(PULLUP_BUTTON_STOP_ALARM);
+      if(alarmOffButtonState == 0){
+        ledLow();
+        break;
+        printf("break");
+      }
       beep(NOTE_A4, 500);
+       alarmOffButtonState = digitalRead(PULLUP_BUTTON_STOP_ALARM);
+      if(alarmOffButtonState == 0){
+        ledLow();
+        break;
+        printf("break");
+      }
       delay(500);    
     }
     // Serial.println("Alarm off delay start....");

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Set Time For Medication</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<!-- <form> -->
+		<div class="container">
+			<div class="alert alert-success" style="display: none;" id="alrt">
+  				<strong>Success!</strong> The time added successfully.
+			</div>
+			<h1>Add a schedule: </h1>
+			Time: <br><input type="time" id="time" required /><br><br>
+			Select Medicine:<br>
+			1: <input type="checkbox" id="cb1" /><br>
+			2: <input type="checkbox" id="cb2" /><br>
+			3: <input type="checkbox" id="cb3" /><br>
+			4: <input type="checkbox" id="cb4" /><br><br>
+			<button onclick="addTime()" class="btn btn-success">Submit</button>			
+		</div>
+
+	<!-- </form> -->
+	<script type="text/javascript">
+		function addTime(){
+			const time = document.getElementById('time').value
+			const cb1 = document.getElementById('cb1').checked
+			const cb2 = document.getElementById('cb2').checked
+			const cb3 = document.getElementById('cb3').checked
+			const cb4 = document.getElementById('cb4').checked
+			const alrt = document.getElementById('alrt')
+			// /api/add/12:18/1
+			let al = []
+			if (cb1) {
+				al.push("1")
+			}
+			if (cb2) {
+				al.push("2")
+			}
+			if (cb3) {
+				al.push("3")
+			}
+			if (cb4) {
+				al.push("4")
+			}
+			
+			const api = `http://localhost:3000/api/add/${time}/${al.join('.')}`
+			console.log(api)
+			let request = new XMLHttpRequest();
+			request.open("GET", api)
+			request.send()
+			alrt.style.display = "block"
+			request.onload = ()=>{
+				if (request.status === 200) {
+					console.log("data added")
+				} else {
+					console.log("failed")
+				}
+			}
+		}
+	</script>
+</body>
+</html>

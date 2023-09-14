@@ -35,8 +35,10 @@ app.get('/api/add/:time/:activate', function(req, res) {
 app.get('/api/checkForAlarm', function(req, res){
   const times = require("./times.json");
   const timeObj = new Date();
-  const hour = timeObj.getHours();
-  const minute = timeObj.getMinutes();
+  let hour = timeObj.getHours().toString();
+  let minute = timeObj.getMinutes().toString();
+  hour = hour.length == 1? '0'+hour : hour;
+  minute = minute.length == 1? '0'+minute : minute;
   const nowTime = `${hour}:${minute}`;
    console.log("nt", nowTime);
    let flagActivate = "";
